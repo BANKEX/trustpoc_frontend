@@ -1,0 +1,22 @@
+.container.connect
+  a.logo(href="../", title="Click here to refresh page")
+    img(src="/assets/logo.svg")
+  .input
+    input.field(
+      placeholder="Enter smart contract address here",
+      [disabled]="($connection|async) === Connection.Estableshed",
+      [(ngModel)]="$connection.contractAddress",
+    )
+    ng-container(*ngIf="state !== Connection.InProcess; else loading")
+      button.btn.btn-primary.alj(
+        (click)="onSubmit()",
+        title="Make sure address has 42 simdols starting with '0x'",
+        [disabled]="state === Connection.Estableshed || $connection.contractAddress?.length !== 42"
+      ) Submit
+    <ng-template #loading>
+      button.btn.btn-primary.spinner([disabled]="true")
+        | Submit
+        img(src="/assets/spinner.gif", alt="")
+    </ng-template>
+
+    //-

@@ -1,0 +1,103 @@
+.container.main
+  // STAGE 1 - ENTER CONNECTION STRING
+  ng-container(*ngIf="stage === Stage.Connection")
+    .container.connection
+      img.logo.rotating(src="assets/logo_simbol_mono.svg")
+  // STAGE 2 - UPLOAD INITIAL DATA FILES
+  ng-container(*ngIf="stage === Stage.Initialization")
+    .container.initialisation.adaptive
+      .drop-zone(
+        ng2FileDrop,
+        (fileOver)="fileOverBase1($event)",
+        [uploader]="uploader1",
+        [ngClass]=`{
+          'file-over': hasDropZone1Over,
+          'error': (uploader1|async) === Uploader.Status.Error,
+          'success': (uploader1|async) === Uploader.Status.Success}`
+      )
+        img.spinner(*ngIf="(uploader1|async) === Uploader.Status.Busy", src="assets/spinner.gif")
+        p.status(*ngIf="(uploader1|async) === Uploader.Status.Busy") Waiting for transactions...
+        p.status(*ngIf="(uploader1|async) === Uploader.Status.Idle") Drop files here...
+        p.status(*ngIf="(uploader1|async) === Uploader.Status.Success") File succesfuly uploaded.
+        p.status(*ngIf="(uploader1|async) === Uploader.Status.Error") Error, check the file format!
+        label.btn.btn-primary.alj(for="initData", [hidden]="(uploader1 | async) === Uploader.Status.Success") Initial data
+        input#initData(
+          hidden,
+          ng2FileSelect,
+          type="file",
+          (change)='openFile($event)',
+          [disabled]="(uploader1|async) === Uploader.Status.Success || (uploader1|async) === Uploader.Status.Busy",
+          [uploader]="uploader1",
+        )
+        p.note([hidden]="(uploader1 | async) === Uploader.Status.Success") Send to blockchain
+
+      .drop-zone(
+        ng2FileDrop,
+        (fileOver)="fileOverBase2($event)",
+        [uploader]="uploader2",
+        [ngClass]=`{
+          'file-over': hasDropZone2Over,
+          'error': (uploader2|async) === Uploader.Status.Error,
+          'success': (uploader2|async) === Uploader.Status.Success}`
+      )
+        img.spinner(*ngIf="(uploader2|async) === Uploader.Status.Busy", src="assets/spinner.gif")
+        p.status(*ngIf="(uploader2|async) === Uploader.Status.Busy") Waiting for transactions...
+        p.status(*ngIf="(uploader2|async) === Uploader.Status.Idle") Drop files here...
+        p.status(*ngIf="(uploader2|async) === Uploader.Status.Success") File succesfuly uploaded.
+        p.status(*ngIf="(uploader2|async) === Uploader.Status.Error") Error, check the file format!
+        label.btn.btn-primary.alj(for="initBeneficiary", [hidden]="(uploader2 | async) === Uploader.Status.Success") Benefeciary rights
+        input#initBeneficiary(
+          hidden,
+          ng2FileSelect,
+          type="file",
+          (change)='openFile($event)',
+          [disabled]="(uploader2|async) === Uploader.Status.Success || (uploader2|async) === Uploader.Status.Busy",
+          [uploader]="uploader2"
+        )
+        p.note([hidden]="(uploader2 | async) === Uploader.Status.Success") Send to blockchain
+  // STAGE 3 - PRESENT CALCULATED DATA
+  ng-container(*ngIf="stage === Stage.Presentation")
+    .container.presentation.adaptive
+      .row.flex-between.adaptive
+        alj-table.main-block(tableId="1")
+        alj-table.main-block([tableId]="'2'")
+      //- .row.flex-between.adaptive
+        alj-date([reset$]="reset$", [disabled$]="$connection.busy$", (date$)="setDate($event)").main-block
+        .buttons.main-block
+          button.btn.btn-primary.spinner.alj(*ngIf="($connection.busy$|async)")
+            | Send to blockchain
+            img(src="/assets/spinner.gif", style="right: 33%; top: -10px" alt="")
+          button.btn.btn-primary.alj((click)="date&&sendDateToBlockcheinClick()", [disabled]="!date||($connection.busy$|async)", *ngIf="!($connection.busy$|async)") Send to blockchain
+          button.btn.btn-primary.alj((click)="date&&resetClick()", [disabled]="!date||($connection.busy$|async)") Reset date
+      .row.flex-between.adaptive
+        tabs.main-block([select$]="activeTab$")
+          tab(tabTitle="Info from OBK", [active]="activeTab === 1")
+            alj-table(*ngIf="($connection.obkStatus$|async) || ($connection.obkUploaded$|async)",stile="min-width: 300px",tableId="3")
+          tab(tabTitle="Update info", [active]="activeTab === 2")
+            div
+              .drop-zone(
+                ng2FileDrop,
+                (fileOver)="fileOverBase3($event)",
+                [uploader]="uploader3",
+                [ngClass]=`{
+                  'file-over': hasDropZone3Over,
+                  'error': (uploader3|async) === Uploader.Status.Error,
+                  'success': (uploader3|async) === Uploader.Status.Success}`
+              )
+                img.spinner(*ngIf="(uploader3|async) === Uploader.Status.Busy", src="assets/spinner.gif")
+                p.status(*ngIf="(uploader3|async) === Uploader.Status.Busy") Waiting for transactions...
+                p.status(*ngIf="(uploader3|async) === Uploader.Status.Idle") Drop files here...
+                //- p.status(*ngIf="(uploader3|async) === Uploader.Status.Success") File succesfuly uploaded.
+                p.status(*ngIf="(uploader3|async) === Uploader.Status.Error") Error, check the file format!
+                label.btn.btn-primary.alj(for="file3") Info from OBK
+                input#file3(
+                  ng2FileSelect,
+                  hidden,
+                  type="file",
+                  [disabled]="(uploader3|async) === Uploader.Status.Busy",
+                  [uploader]="uploader3"
+                )
+                p.note Send to blockchain
+        .main-block.action
+          .btn.btn-warning.alj((click)="showBalanceSheetClick()") Balance sheet
+          .btn.btn-warning.alj((click)="showBalanceForEachInvestorClick()") Balance for each investor

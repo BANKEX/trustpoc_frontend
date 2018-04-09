@@ -1,0 +1,150 @@
+html, body {
+  height: 100%;
+  font-size: 12px;
+}
+body {
+  padding: 30px;
+  padding-bottom: 0;
+}
+[hidden] {
+  display: none !important;
+}
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  // height: 80%;
+  min-height: 700px;
+  padding-top: 15px;
+  .connection {
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    img.logo {
+      opacity: .01;
+      height: 10%;
+      position: relative;
+      top: 50px;
+      width: 50%;
+    }
+  }
+  .initialisation {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin-top: -20%;
+    min-height: 100px;
+    height: 50%;
+  }
+  .presentation {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: 100%;
+    .date-control, .buttons {
+      margin-bottom: 20px;
+      min-height: 30px;
+      .date {
+        margin: auto;
+      }
+    }
+    .buttons {
+      display: flex;
+      justify-content: flex-end;
+    }
+    .action {
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin: auto 0;
+      text-align: end;
+      .btn {
+        font-size: 18px;
+        margin-bottom: 20px;
+        margin-left: 30px;
+        padding: 7px 20px;
+        color: white;
+      }
+    }
+    .tabs .pane {
+      min-height: 300px;
+      margin: 10px;
+    }
+    .table td {
+      padding: 0.70rem;
+    }
+  }
+  .drop-zone {
+    align-items: center;
+    border: dashed 2px orange;
+    background: #fafafa;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 10px;
+    min-width: 300px;
+    min-height: 300px;
+    position: relative;
+    text-align: center;
+    &.error {
+      border-color: orangered;
+    }
+    &.success {
+      border-color: green;
+    }
+    .spinner {
+      position: absolute;
+      top: 15%;
+    }
+    label {
+      margin: 0 50px;
+    }
+    .note {
+      margin-top: 1rem;
+    }
+  }
+  .file-over { border-color:green; } /* Default class applied to drop zones on over */
+}
+.main-block {
+  width: 45%;
+}
+.scroller {
+  max-height: 380px;
+  overflow: auto;
+  //- margin-bottom: 15px;
+  //- border-bottom: 1px solid lightgray;
+}
+
+@include media-breakpoint-down(md) {
+  .main {
+    justify-content: start;
+    min-height: 1200px;
+    .presentation {
+      .action {
+        text-align: center;
+        margin-top: 50px;
+      }
+    }
+    tabs {
+      margin-top: 20px;
+    }
+  }
+  .adaptive {
+    flex-direction: column !important;
+    flex-wrap: nowrap !important;
+    &.flex-between {
+      justify-content: initial;
+    }
+  }
+  .initialisation, .presentation {
+    margin-top: 0 !important;
+  }
+  .main-block {
+    width: initial;
+  }
+  .scroller {
+    margin-bottom: 15px;
+  }
+}
+

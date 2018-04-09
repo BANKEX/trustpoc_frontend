@@ -1,0 +1,10 @@
+{
+  "addresses": [
+    "0x28d135c9d53fd37e6483388e3496d23af4e5ead2"
+  ],
+  "maps": {
+    "initData": ["Reserve cash", "Dividend rate", "Trust fees rate", "Dividend calculation term begin", "Trust fees calculation term begin"],
+    "initBeneficiary": ["AAA", "N/A"],
+    "setInformationFromOBK": ["date", "Principal collected", "Interest collected", "# of full settlements", "Bank interest", "Expenses", "Trigger"]
+  }
+}

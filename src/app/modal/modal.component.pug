@@ -1,0 +1,10 @@
+.modal-header
+  h4.modal-title(*ngIf="tableId===4") Balance Sheet
+  h4.modal-title(*ngIf="tableId===5") Balance For Each Investor
+  button.close(type="button", aria-label="Close", (click)="activeModal.dismiss('Cross click')")
+    span(aria-hidden="true") ×
+.modal-body
+  alj-table(tableId="4", *ngIf="tableId===4")
+  alj-table(tableId="5", *ngIf="tableId===5")
+.modal-footer
+  button.btn.btn-primary.alj(type="button", (click)="submit()") Close

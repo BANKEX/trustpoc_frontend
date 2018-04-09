@@ -1,0 +1,7 @@
+.date-control.flex-between
+  span.date {{displayDate|date}}
+  span
+    .btn.btn-primary.alj((click)="click(1)", [ngClass]="{disabled: disabled}") +1 day
+    .btn.btn-primary.alj((click)="click(7)", [ngClass]="{disabled: disabled}") +7 day
+    .btn.btn-primary.alj((click)="click(30)", [ngClass]="{disabled: disabled}") +30 day
+

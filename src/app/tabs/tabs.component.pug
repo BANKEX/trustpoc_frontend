@@ -1,0 +1,15 @@
+//- Пуг заглючил и не захотел кушать li, пришлось написать в html
+<section class="container tabs">
+  <div class="row">
+    <div class="col-md-12">
+      <ul class="nav nav-tabs">
+        <li class="nav-item" *ngFor="let tab of tabs" (click)="selectTab(tab)" [class.active]="tab.active">
+          <a class="nav-link" href="javascript:void(0)" [class.active]="tab.active"> {{tab.title}}</a>
+        </li>
+      </ul>
+      <ng-content></ng-content>
+    </div>
+  </div>
+</section>
+
+

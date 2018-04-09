@@ -1,0 +1,154 @@
+div.scroller(
+  appInfiniteScroller,
+  [scrollPercent]="90",
+  [scrollCallback]="scrollCallback",
+  [ngSwitch] = "tableId"
+)
+  // Table 1 (Initial Data)
+  ng-container(*ngSwitchCase="1")
+    table.table.table-bordered
+      tbody
+        tr
+          td
+            b Field
+          td
+            b Value
+        tr
+          td Total Priority Rights:
+          td {{data?.totalPriorityRights}}
+        tr
+          td Total Subordinated Rights:
+          td {{data?.totalSubordinatedRights}}
+        tr
+          td Total Rights:
+          td {{data?.totalRights}}
+        tr
+          td Cash Reserves:
+          td {{data?.cashReserves}}
+        tr
+          td Priority Dividends Rate:
+          td {{data?.priorityDividendsRate*100}}%
+        tr
+          td Trust Fee Rate
+          td {{data?.trustFeeRate*100}}%
+        tr
+          td Dividends Calculation Term Beginnig:
+          td {{data?.dividendsCalculationTermBeginnig|date:'M/dd/yyy'}}
+        tr
+          td Trust Fees Calculation Term Beginnig:
+          td {{data?.trustFeesCalculationTermBeginnig|date:'M/dd/yyy'}}
+        tr(*ngIf="$connection.isRinkeby")
+          td View CryptoYen details at etherscan:
+          td
+            a(href="https://rinkeby.etherscan.io/token/{{$connection.cryptoYenAddress}}", target="_blank") Open link
+  // Table 2 (Beneficiary Rights)
+  ng-container(*ngSwitchCase="2")
+    table.table.table-bordered
+      tbody
+        tr
+          td
+          td
+            b Address
+          td
+            b Amount
+        tr(*ngFor="let item of data.priorityRights; let i = index")
+          td.text-center.align-middle(*ngIf="i==0", [attr.rowspan]="data.priorityRights.length") AAA
+          td {{item.address}}
+          td {{item.balance}}
+        tr(*ngFor="let item of data.subordinatedRights; let i = index")
+          td.text-center.align-middle(*ngIf="i==0", [attr.rowspan]="data.subordinatedRights.length") N/A
+          td {{item.address}}
+          td {{item.balance}}
+  // Table 3 (Information OBK)
+  ng-container(*ngSwitchCase="3")
+    table.table.table-bordered
+      tbody
+        tr
+          td Calculation date:
+          td {{data.calculationDate ? (data.calculationDate|date:'M/dd/yyyy') : '-'}}
+        tr
+          td Principal collected:
+          td {{data.principalCollected}}
+        tr
+          td Interest collected:
+          td {{data.interestCollected}}
+        tr
+          td Bank Interest:
+          td {{data.bankInterest}}
+        tr
+          td Expenses:
+          td {{data.expenses}}
+        //- tr
+        //-   td Trust Fees
+        //-   td {{data.trustFees}}
+        //- tr
+        //-   td Dividends Not Distributed
+        //-   td {{data.dividendsNotDistributed}}
+        //- tr
+        //-   td Principal Not Distributed
+        //-   td {{data.principalNotDistributed}}
+  // Table 4 (Modal BalanceSheet)
+  ng-container(*ngSwitchCase="4")
+    table.table.table-bordered
+      tbody
+        tr
+          td([colSpan]="2")
+            b Assets
+          td([colSpan]="2")
+            b Liabilities
+        tr
+          td Credits for automobile loans
+          td {{data[0]}}
+          td Principal
+          td {{data[7]}}
+        tr
+          td Due from bank accounts
+          td {{data[1]}}
+          td Priority beneficiary rights
+          td {{data[8]}}
+        tr
+          td Principal reserving account
+          td {{data[2]}}
+          td Subordinated  beneficiary rights
+          td {{data[9]}}
+        tr
+          td Dividends reserving account
+          td {{data[3]}}
+          td Beneficiary rights of reserve cash
+          td {{data[10]}}
+        tr
+          td Сash reserving account
+          td {{data[4]}}
+          td([colSpan] ="2")
+        tr
+          td Net loss
+          td {{data[5]}}
+          td Net profit
+          td {{data[11]}}
+        tr
+          td Total
+          td {{data[6]}}
+          td Total
+          td {{data[12]}}
+
+  // Table 5 (Modal BalanceForEachInvestor)
+  ng-container(*ngSwitchCase="5")
+    table.table.table-bordered
+      tbody
+        tr
+          td
+            b Type
+          td
+            b Address
+          td
+            b Redemption
+          td
+            b Dividends
+          td
+            b Balance
+        tr(*ngFor="let row of data.rows")
+          td {{data.titles[row[0]]}}
+          td([colSpan]="row[0]>2?3:1") {{row[0]>2?'':(row[1])}}
+          td(*ngIf="row[0]<=2") {{row[2]}}
+          td(*ngIf="row[0]<=2") {{row[3]}}
+          td {{row[4]}}

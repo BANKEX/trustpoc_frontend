@@ -1,0 +1,27 @@
+.btn {
+  border-radius: 20px;
+}
+
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn.alj {
+  box-shadow: -2px 2px 5px lightgrey;
+  margin-left: 15px;
+  padding-left: 30px;
+  padding-right: 30px;
+
+}
+.btn.spinner {
+  background: white;
+  img {
+    position: absolute;
+    right: 24px;
+    top: -2px;
+  }
+}
+button {
+  position: relative;
+}
